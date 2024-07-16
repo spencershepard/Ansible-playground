@@ -1,0 +1,8 @@
+# since we use docker compose for this project we can use the service names from docker-compose.yml
+[all:vars]
+ansible_user = root
+ansible_port = 22
+
+[mygroup]
+coolserver ansible_ssh_host=host1
+awesomeserver ansible_ssh_host=host2

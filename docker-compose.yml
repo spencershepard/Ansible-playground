@@ -1,0 +1,27 @@
+version: '3'
+services:
+
+  control-node:
+    build: 
+      context: .
+      dockerfile: ./control_node/Dockerfile
+    ports:
+      - "22:22"
+    volumes:
+      - ./ansible:/etc/ansible
+    tty: true
+    stdin_open: true
+    
+  host1:
+    build: 
+      context: .
+      dockerfile: ./host_nodes/Dockerfile
+    tty: true
+    stdin_open: true
+  
+  host2:
+    build: 
+      context: .
+      dockerfile: ./host_nodes/Dockerfile
+    tty: true
+    stdin_open: true
