@@ -4,12 +4,13 @@ LABEL description="This is will create the Ansible control node image with ssh a
 RUN apt-get update
 RUN apt-get install -y python3 python3-pip
 RUN apt-get install -y vim nano curl wget git net-tools iputils-ping dnsutils
-RUN apt-get install -y ssh
+RUN apt-get install -y openssh-server openssh-client
 RUN apt-get install -y sudo
 RUN pip3 install ansible
 
 #enable ssh login with password
 RUN echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config
+RUN mkdir -p /run/sshd
 
 #copy ssh key to root user
 COPY ../keys/id_rsa /root/.ssh/id_rsa
@@ -29,8 +30,7 @@ COPY ../keys/id_rsa /home/ansible/.ssh/id_rsa
 RUN sudo chown -R ansible:ansible /home/ansible/.ssh
 RUN sudo chmod 600 /home/ansible/.ssh/id_rsa
 
-ENTRYPOINT /bin/bash
-#CMD ["sudo", "/usr/sbin/sshd", "-D"]
+#we'll need to add any env vars to the ansible user's .profile if we want them available between sessions
+RUN echo "ANSIBLE_HOST_KEY_CHECKING=False; export ANSIBLE_HOST_KEY_CHECKING" >> /home/ansible/.profile
 
-
-
+CMD ["sudo", "/usr/sbin/sshd", "-D"]
