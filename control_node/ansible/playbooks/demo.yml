@@ -1,0 +1,16 @@
+---
+- name: My first play
+  hosts: mygroup
+  tasks:
+    - name: Ping my hosts
+      ansible.builtin.ping:
+
+    - name: Print message
+      ansible.builtin.debug:
+        msg: Hello world
+      
+    - name: Install package
+      ansible.builtin.package:
+        name: nginx
+        state: present
+   

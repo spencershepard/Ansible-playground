@@ -5,10 +5,13 @@ services:
     build: 
       context: .
       dockerfile: ./control_node/Dockerfile
+      args:
+        - password=ansible
     ports:
       - "22:22"
     volumes:
-      - ./ansible:/etc/ansible
+      - ./control_node/etc/ansible:/etc/ansible
+      - ./control_node/ansible/playbooks:/home/ansible/playbooks
     tty: true
     stdin_open: true
     
